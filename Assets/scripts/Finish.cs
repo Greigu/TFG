@@ -9,7 +9,7 @@ public class Finish : MonoBehaviour
     {
 
     }
-
+    // detectem la colisió amb la zona final i carreguem el menú principal
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.name == "Player")

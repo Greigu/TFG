@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    // creem dues variables del rigid body i el box collider
     private Rigidbody2D rb;
     private BoxCollider2D coll;
 
-    [SerializeField] private LayerMask jumpableGround;
-    // Start is called before the first frame update
+    [SerializeField] private LayerMask jumpableGround; // des de Unity podem elegir quina mascara utilitzar
+    //Carregquem les dues variables
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
     }
 
-    // Update is called once per frame
+    //modifiquem la direcció i la velocitat per fer el moviment i si premem el botó de saltar i estem al terra modifiquem la velocitat y
     private void Update()
     {
         float dirX = Input.GetAxisRaw("Horizontal");
@@ -27,8 +28,8 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, 14);
         }
     }
-
-    private bool IsGrounded() 
+    //Comprovem si està al terra creant un collider als peus del jugador i desplçant-lo una mica cap a sota, si toca amb el colider marcat com jumpableGround retorna true
+    private bool IsGrounded()
     {
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
     }
