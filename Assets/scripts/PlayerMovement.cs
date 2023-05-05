@@ -11,8 +11,8 @@ public class PlayerMovement : MonoBehaviour
     private BoxCollider2D coll;
 
     private float dirX = 0f;
-    [SerializeField]private float moveSpeed = 3f;
-    [SerializeField]private float jumpForce = 14f;
+    [SerializeField] private float moveSpeed = 3f;
+    [SerializeField] private float jumpForce = 13f;
     [SerializeField] private LayerMask jumpableGround; // des de Unity podem elegir quina mascara utilitzar
     //Carregquem les dues variables
     private void Start()
@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
         UpdateAnimationState();
-        
+
     }
     //Comprovem si està al terra creant un collider als peus del jugador i desplçant-lo una mica cap a sota, si toca amb el colider marcat com jumpableGround retorna true
     private bool IsGrounded()
