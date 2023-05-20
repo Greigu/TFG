@@ -11,9 +11,11 @@ public class PlayerMovement : MonoBehaviour
     private BoxCollider2D coll;
 
     private float dirX = 0f;
-    [SerializeField] private float moveSpeed = 3f;
+    [SerializeField] private float moveSpeed = 3.5f;
     [SerializeField] private float jumpForce = 13f;
     [SerializeField] private LayerMask jumpableGround; // des de Unity podem elegir quina mascara utilitzar
+
+    private enum MovementState { idle, running, jumping, falling }
     //Carregquem les dues variables
     private void Start()
     {
@@ -45,19 +47,29 @@ public class PlayerMovement : MonoBehaviour
 
     private void UpdateAnimationState()
     {
+        MovementState stateAnim = 0;
         if (dirX > 0f)
         {
-            anim.SetBool("running", true);
+            stateAnim = MovementState.running;
             sprite.flipX = false;
         }
         else if (dirX < 0f)
         {
-            anim.SetBool("running", true);
+            stateAnim = MovementState.running;
             sprite.flipX = true;
         }
         else
         {
-            anim.SetBool("running", false);
+            stateAnim = MovementState.idle;
         }
+        if (rb.velocity.y > 0.1f)
+        {
+            stateAnim = MovementState.jumping;
+        }
+        else if (rb.velocity.y < -0.1f)
+        {
+            stateAnim = MovementState.falling;
+        }
+        anim.SetInteger("state", (int)stateAnim);
     }
 }
