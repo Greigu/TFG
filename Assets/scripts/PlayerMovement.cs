@@ -17,13 +17,19 @@ public class PlayerMovement : MonoBehaviour
     private float dashingTime = 0.3f;
     private float dashCooldown = 1f;
     private float dirX = 0f;
+    // Variables atac
+    private bool canAtack = true;
+    private bool isAtacking;
+    private float atackTime = .5f;
+    private float atackCD = .2f;
+
     [SerializeField] private float moveSpeed = 3.5f;
     [SerializeField] private float jumpForce = 13f;
     [SerializeField] private LayerMask jumpableGround; // des de Unity podem elegir quina mascara utilitzar
 
     [SerializeField] private TrailRenderer tr;
-
-    private enum MovementState { idle, running, jumping, falling, dJumping, dashing }
+    [SerializeField] MeleeCombat melee;
+    private enum MovementState { idle, running, jumping, falling, dJumping, dashing, atacking }
     //Carregquem les dues variables
     private void Start()
     {
@@ -40,10 +46,14 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
+        if (isAtacking)
+        {
+            return;
+        }
         dirX = Input.GetAxisRaw("Horizontal");
 
         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
-        
+
         if (IsGrounded() && !Input.GetButton("Jump"))
         {
             doubleJump = false;
@@ -53,6 +63,10 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             doubleJump = !doubleJump;
+        }
+        if (IsGrounded() && Input.GetMouseButtonDown(0) && canAtack)
+        {
+            StartCoroutine(Atack());
         }
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
@@ -67,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 bottomBox = new Vector2(coll.bounds.center.x, coll.bounds.center.y - coll.bounds.size.y / 2);
         Vector2 size = new Vector2(coll.bounds.size.x, .1f);
         return Physics2D.BoxCast(bottomBox, size, 0f, Vector2.down, .1f, jumpableGround);
-        
+
     }
 
     private void UpdateAnimationState()
@@ -103,6 +117,10 @@ public class PlayerMovement : MonoBehaviour
         {
             stateAnim = MovementState.falling;
         }
+        if (isAtacking)
+        {
+            stateAnim = MovementState.atacking;
+        }
         if (isDashing)
         {
             stateAnim = MovementState.dashing;
@@ -125,4 +143,17 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }
+    private IEnumerator Atack()
+    {
+        canAtack = false;
+        isAtacking = true;
+        yield return new WaitForSeconds(.1f);
+        melee.Atk();
+        rb.velocity = new Vector2(0, 0);
+        yield return new WaitForSeconds(atackTime);
+        isAtacking = false;
+        yield return new WaitForSeconds(atackCD);
+        canAtack = true;
+    }
+
 }

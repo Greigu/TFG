@@ -172,3 +172,6 @@ MonoBehaviour:
   jumpableGround:
     serializedVersion: 2
     m_Bits: 64
+  Enemy:
+    serializedVersion: 2
+    m_Bits: 128

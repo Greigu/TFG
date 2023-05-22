@@ -27,7 +27,19 @@ public class slimeMovement : MonoBehaviour
     }
     private bool hasCollide()
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, goLeft ? Vector2.left : Vector2.right, .1f, jumpableGround);
+        if (Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, goLeft ? Vector2.left : Vector2.right, .1f, jumpableGround))
+        {
+            return true;
+        } else return false;
+
+        
+    }
+
+    public void Die()
+    {
+        coll.enabled = false;
+        sprite.enabled = false;
+        rb.Sleep();
     }
 
 }
