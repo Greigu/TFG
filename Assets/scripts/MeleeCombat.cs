@@ -22,6 +22,7 @@ public class MeleeCombat : MonoBehaviour
             if (col.CompareTag("Slime"))
             {
                 col.transform.GetComponent<slimeMovement>().Die();
+                Destroy(col.gameObject);
             }
         }
     }

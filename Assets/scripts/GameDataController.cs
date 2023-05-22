@@ -6,12 +6,14 @@ public class GameDataController : MonoBehaviour
 {
     public GameObject player;
     public string saveFileRoute;
-    public GameData gameData = new GameData();
+    public GameData gameData;
+    public new AudioSource audio;
 
     private void Awake()
     {
-        saveFileRoute = Application.dataPath + "/Data/gameData.json";
+        saveFileRoute = Application.streamingAssetsPath + "/gameData.json";
         player = GameObject.FindGameObjectWithTag("Player");
+        audio = GameObject.Find("BackgroundMusic").GetComponent<AudioSource>();
     }
     private void Start()
     {
@@ -24,6 +26,7 @@ public class GameDataController : MonoBehaviour
         {
             LoadData();
         }
+        audio.volume = PlayerPrefs.GetFloat("Volume");
 
     }
     private void Update()

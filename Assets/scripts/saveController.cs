@@ -24,7 +24,7 @@ public class saveController : MonoBehaviour
         {
             canSave = true;
             text.SetActive(true);
-            Debug.Log("Display Text");
+            Debug.Log("Can Save");
         }
         
     }
@@ -34,7 +34,7 @@ public class saveController : MonoBehaviour
         {
             canSave = false;
             text.SetActive(false);
-            Debug.Log("Hide Text");
+            Debug.Log("Can't Save");
         }
     }
 }

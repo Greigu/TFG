@@ -3,12 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class MainMenu : MonoBehaviour
 {
-    GameDataController gameDataController;
+    private new AudioSource audio;
     bool isNew;
     private void Start() {
-        gameDataController = GameObject.Find("GameDataController").GetComponent<GameDataController>();
+        audio = GameObject.Find("BackgroundSound").GetComponent<AudioSource>();
+        float vol;
+        if (!PlayerPrefs.HasKey("Volume"))
+        {
+            vol = 0.5f;
+        }
+        else
+        {
+            vol = PlayerPrefs.GetFloat("Volume");
+        }
+        audio.volume = vol;
     }
     // Carreguem l'escena del bosc
     public void PlayGame()
