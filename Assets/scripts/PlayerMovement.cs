@@ -147,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
     {
         canAtack = false;
         isAtacking = true;
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(.05f);
         melee.Atk();
         rb.velocity = new Vector2(0, 0);
         yield return new WaitForSeconds(atackTime);
